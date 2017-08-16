@@ -1,7 +1,6 @@
 package com.puyatech.ab4c.shen_battery_monitor.gui;
 
 import java.awt.GridLayout;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,14 +22,10 @@ public class PropertyCombo extends JPanel {
 	}
 
 	private void onCreate() {
-
 		JLabel text = new JLabel();
 		JTextField edit = new JTextField();
 
-		text.setText("name");
 		text.setHorizontalAlignment(JLabel.RIGHT);
-
-		edit.setText("value");
 		edit.setHorizontalAlignment(JTextField.CENTER);
 		edit.setEditable(false);
 
@@ -53,5 +48,4 @@ public class PropertyCombo extends JPanel {
 	public void setValue(String s) {
 		this.m_value.setText(s);
 	}
-
 }

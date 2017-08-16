@@ -34,7 +34,6 @@ import com.puyatech.ab4c.shen_battery_monitor.protocol.StatusField;
 public class MainFrame extends JFrame implements ActionListener {
 
 	interface Action {
-
 		String start = "start";
 		String stop = "stop";
 
@@ -48,55 +47,49 @@ public class MainFrame extends JFrame implements ActionListener {
 		String set_qygdfz = "set_gdfz";
 		String set_hfjtfz = "set_jtfz";
 		String ok_bcdl = "ok_bcdl";
-
 	}
 
 	private static final long serialVersionUID = 1L;
 	private final MonitorHolder m_holder;
 
-	private ControlPanel wnd_control;
-	private SettingsPanel wnd_settings;
-	private StatusPanel wnd_status;
-	private ConsolePanel wnd_console;
+	private ControlPanel control;
+	private SettingsPanel settings;
+	private StatusPanel status;
+	private ConsolePanel console;
 	private MyUIUpdater m_ui_updater;
 	private StringRes m_res;
 
 	public MainFrame(MonitorHolder holder) {
 		this.m_holder = holder;
 	}
-
-	public ImageIcon loadIcon() {
-		String name = "monitor.png";
-		URL url = this.getClass().getResource(name);
-		return new ImageIcon(url);
-	}
 	
 	public void onCreate() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle(this.getClass().getName());
-		this.setIconImage(this.loadIcon().getImage());
+		this.setIconImage(new ImageIcon(this.getClass().getResource("monitor.png")).getImage());
 		this.setSize(600, 600);
 		this.setJMenuBar(this.createMenuBar());
 		this.setResizable(false);
 
-		this.wnd_control = ControlPanel.create(this.m_holder);
-		this.wnd_settings = SettingsPanel.create(this.m_holder);
-		this.wnd_status = StatusPanel.create(this.m_holder);
-		this.wnd_console = ConsolePanel.create(this.m_holder);
+		this.control = ControlPanel.create(this.m_holder);
+		this.settings = SettingsPanel.create(this.m_holder);
+		this.status = StatusPanel.create(this.m_holder);
+		this.console = ConsolePanel.create(this.m_holder);
 
 		Container client = this.getContentPane();
 		client.setLayout(new BorderLayout());
-		client.add(wnd_control, BorderLayout.NORTH);
+		client.add(control, BorderLayout.NORTH);
 		{
 			JPanel center = new JPanel();
 			center.setLayout(new GridLayout(1, 2));
-			center.add(wnd_settings, BorderLayout.WEST);
-			center.add(wnd_status, BorderLayout.CENTER);
 			center.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+
+			center.add(settings, BorderLayout.WEST);
+			center.add(status, BorderLayout.CENTER);
 
 			client.add(center, BorderLayout.CENTER);
 		}
-		client.add(wnd_console, BorderLayout.SOUTH);
+		client.add(console, BorderLayout.SOUTH);
 
 		this.initStringResources();
 		this.setupButtons();
@@ -105,24 +98,24 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	private void setupLogOutput() {
-		ConsolePanel console = this.wnd_console;
+		ConsolePanel console = this.console;
 		Writer out = new ConsolePanelWriter(console);
 		this.m_holder.getMonitor().setLogOut(out);
 	}
 
 	private void setupButtons() {
 
-		this.setupButton(wnd_settings.wnd_button_sdcx, Action.sdcx);
-		this.setupButton(wnd_settings.wnd_button_hfqs, Action.hfqs);
-		this.setupButton(wnd_settings.wnd_button_gdfz, Action.gdfz);
-		this.setupButton(wnd_settings.wnd_button_jtfz, Action.jtfz);
+		this.setupButton(settings.button_sdcx, Action.sdcx);
+		this.setupButton(settings.button_hfqs, Action.hfqs);
+		this.setupButton(settings.button_gdfz, Action.gdfz);
+		this.setupButton(settings.button_jtfz, Action.jtfz);
 
-		this.setupButton(wnd_settings.wnd_setcom_zdcx.wnd_button, Action.auto_query);
-		this.setupButton(wnd_settings.wnd_setcom_qygd.wnd_button, Action.set_qygdfz);
-		this.setupButton(wnd_settings.wnd_setcom_hfjt.wnd_button, Action.set_hfjtfz);
-		this.setupButton(wnd_settings.wnd_setcom_bcdl.wnd_button, Action.ok_bcdl);
+		this.setupButton(settings.setcom_zdcx.button, Action.auto_query);
+		this.setupButton(settings.setcom_qygd.button, Action.set_qygdfz);
+		this.setupButton(settings.setcom_hfjt.button, Action.set_hfjtfz);
+		this.setupButton(settings.setcom_bcdl.button, Action.ok_bcdl);
 
-		this.setupButton(wnd_control.wnd_button_on_off, Action.on_off);
+		this.setupButton(control.button_on_off, Action.on_off);
 
 	}
 
@@ -138,56 +131,55 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setTitle(res.getTitle());
 
 		// control
+		control.label_com.setText(res.getComPort());
+		control.label_config.setText("9600-8-N-1");
+		control.label_power.setText("");
 
-		wnd_control.wnd_label_com.setText(res.getComPort());
-		wnd_control.wnd_label_config.setText("9600-8-N-1");
-		wnd_control.wnd_label_power.setText("");
-
-		wnd_control.wnd_button_on_off.setText(res.getOnOff());
+		control.button_on_off.setText(res.getOnOff());
 
 		ComboBoxModel<String> model = this.createComPortComboModel();
-		wnd_control.wnd_combo_port.setModel(model);
+		control.combo_port.setModel(model);
 
 		// settings
 
-		wnd_settings.wnd_button_sdcx.setText(res.getManualQuery());
-		wnd_settings.wnd_button_hfqs.setText(res.getRestoreDefaultValues());
-		wnd_settings.wnd_button_gdfz.setText(res.getLoadOff());
-		wnd_settings.wnd_button_jtfz.setText(res.getLoadConnected());
+		settings.button_sdcx.setText(res.getManualQuery());
+		settings.button_hfqs.setText(res.getRestoreDefaultValues());
+		settings.button_gdfz.setText(res.getLoadOff());
+		settings.button_jtfz.setText(res.getLoadConnected());
 
-		wnd_settings.wnd_setcom_zdcx.setTitle("");
-		wnd_settings.wnd_setcom_zdcx.setUnit("s");
-		wnd_settings.wnd_setcom_zdcx.setButtonText(res.getAutomaticQuery());
+		settings.setcom_zdcx.setTitle(res.getAutomaticQuery());
+		// settings.setcom_zdcx.setUnit("s");
+		settings.setcom_zdcx.setButtonText(res.getSetup());
 
-		wnd_settings.wnd_setcom_qygd.setTitle(res.getValUnderVolShutdownLoad1());
-		wnd_settings.wnd_setcom_qygd.setUnit("V");
-		wnd_settings.wnd_setcom_qygd.setButtonText(res.getSetup());
-		wnd_settings.wnd_setcom_qygd.setValue("10.8");
+		settings.setcom_qygd.setTitle(res.getValUnderVolShutdownLoad1());
+		// settings.setcom_qygd.setUnit("V");
+		settings.setcom_qygd.setButtonText(res.getSetup());
+		settings.setcom_qygd.setValue("10.8");
 
-		wnd_settings.wnd_setcom_hfjt.setTitle(res.getValRestoreLoad1());
-		wnd_settings.wnd_setcom_hfjt.setUnit("V");
-		wnd_settings.wnd_setcom_hfjt.setButtonText(res.getSetup());
-		wnd_settings.wnd_setcom_hfjt.setValue("11.8");
+		settings.setcom_hfjt.setTitle(res.getValRestoreLoad1());
+		// settings.setcom_hfjt.setUnit("V");
+		settings.setcom_hfjt.setButtonText(res.getSetup());
+		settings.setcom_hfjt.setValue("11.8");
 
-		wnd_settings.wnd_setcom_bcdl.setTitle(res.getValBatNominal());
-		wnd_settings.wnd_setcom_bcdl.setUnit("mAh");
-		wnd_settings.wnd_setcom_bcdl.setButtonText(res.getOk());
-		wnd_settings.wnd_setcom_bcdl.setValue("0");
+		settings.setcom_bcdl.setTitle(res.getValBatNominal());
+		// settings.setcom_bcdl.setUnit("mAh");
+		settings.setcom_bcdl.setButtonText(res.getOk());
+		settings.setcom_bcdl.setValue("0");
 
 		// status
 
-		wnd_status.wnd_combo_id.setName(res.getIdBoard());
-		wnd_status.wnd_combo_dqdy.setName(res.getValVoltage());
-		wnd_status.wnd_combo_dqdl.setName(res.getValCurrent());
-		wnd_status.wnd_combo_dcwd.setName(res.getTempBattery());
-		wnd_status.wnd_combo_xpwd.setName(res.getTempChip());
-		wnd_status.wnd_combo_fztd.setName(res.getValLoadState());
-		wnd_status.wnd_combo_qygd.setName(res.getValUnderVolShutdownLoad2());
-		wnd_status.wnd_combo_hfjt.setName(res.getValRestoreLoad2());
-		wnd_status.wnd_combo_zgl.setName(res.getValTotalPower());
-		wnd_status.wnd_combo_zdz.setName(res.getValTotalResistance());
-		wnd_status.wnd_combo_dcdl.setName(res.getValBatteryCapacity());
-		wnd_status.wnd_combo_dlbfb.setName(res.getValPOE());
+		status.combo_id.setName(res.getIdBoard());
+		status.combo_dqdy.setName(res.getValVoltage());
+		status.combo_dqdl.setName(res.getValCurrent());
+		status.combo_dcwd.setName(res.getTempBattery());
+		status.combo_xpwd.setName(res.getTempChip());
+		status.combo_fztd.setName(res.getValLoadState());
+		status.combo_qygd.setName(res.getValUnderVolShutdownLoad2());
+		status.combo_hfjt.setName(res.getValRestoreLoad2());
+		status.combo_zgl.setName(res.getValTotalPower());
+		status.combo_zdz.setName(res.getValTotalResistance());
+		status.combo_dcdl.setName(res.getValBatteryCapacity());
+		status.combo_dlbfb.setName(res.getValPOE());
 
 		this.m_res = res;
 	}
@@ -259,13 +251,13 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	private void doActionOkBCDL() {
 		// TODO Auto-generated method stub
-		// String s = this.wnd_settings.wnd_setcom_bcdl.getValue();
+		// String s = this.settings.setcom_bcdl.getValue();
 		// Monitor monitor = this.m_holder.getMonitor();
 		// monitor.send("ATxxx" + s);
 	}
 
 	private void doActionSetHFJTFZ() {
-		String s = this.wnd_settings.wnd_setcom_hfjt.getValue();
+		String s = this.settings.setcom_hfjt.getValue();
 		if (s.indexOf('.') < 0) {
 			s = s + ".00";
 		}
@@ -274,7 +266,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	private void doActionSetQYGDFZ() {
-		String s = this.wnd_settings.wnd_setcom_qygd.getValue();
+		String s = this.settings.setcom_qygd.getValue();
 		if (s.indexOf('.') < 0) {
 			s = s + ".00";
 		}
@@ -283,12 +275,12 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	private void doActionAutoQuery() {
-		String s = this.wnd_settings.wnd_setcom_zdcx.getValue();
+		String s = this.settings.setcom_zdcx.getValue();
 		int n = Integer.parseInt(s);
 		n = Math.max(n, 2);
 		Monitor monitor = this.m_holder.getMonitor();
 		monitor.send("ATG", 1000, n * 1000);
-		this.wnd_settings.wnd_setcom_zdcx.setValue(n + "");
+		this.settings.setcom_zdcx.setValue(n + "");
 	}
 
 	private void doActionSDCX() {
@@ -322,7 +314,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	private void doActionStart() {
-		JComboBox<String> jcbox = wnd_control.wnd_combo_port;
+		JComboBox<String> jcbox = control.combo_port;
 		Object obj = jcbox.getSelectedItem();
 		if (obj == null) {
 			JOptionPane.showMessageDialog(this, "无选择对象", "提示", JOptionPane.ERROR_MESSAGE);
@@ -406,7 +398,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void updateUI() {
 
 		Monitor monitor = this.m_holder.getMonitor();
-		this.wnd_control.setStateIcon(monitor.isStateOn() ? 1 : 0);
+		this.control.setStateIcon(monitor.isStateOn() ? 1 : 0);
 
 		MonitorState state = monitor.getState();
 		if (state == null) {
@@ -415,17 +407,17 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		Map<String, StatusField> table = state.getFields();
 
-		this.wnd_status.wnd_combo_id.setValue(this.id2string(state.getId()));
-		this.updateComponent(table, "VOL", this.wnd_status.wnd_combo_dqdy);
-		this.updateComponent(table, "CUR", this.wnd_status.wnd_combo_dqdl);
-		this.updateComponent(table, "BAT", this.wnd_status.wnd_combo_dcwd);
-		this.updateComponent(table, "CHIP", this.wnd_status.wnd_combo_xpwd);
+		this.status.combo_id.setValue(this.id2string(state.getId()));
+		this.updateComponent(table, "VOL", this.status.combo_dqdy);
+		this.updateComponent(table, "CUR", this.status.combo_dqdl);
+		this.updateComponent(table, "BAT", this.status.combo_dcwd);
+		this.updateComponent(table, "CHIP", this.status.combo_xpwd);
 
-		this.updateComponent(table, "REL", this.wnd_status.wnd_combo_fztd, "b");
-		this.updateComponent(table, "CLO", this.wnd_status.wnd_combo_qygd);
-		this.updateComponent(table, "OPE", this.wnd_status.wnd_combo_hfjt);
-		this.updateComponent(table, "zgl", this.wnd_status.wnd_combo_zgl);
-		this.updateComponent(table, "zdz", this.wnd_status.wnd_combo_zdz);
+		this.updateComponent(table, "REL", this.status.combo_fztd, "b");
+		this.updateComponent(table, "CLO", this.status.combo_qygd);
+		this.updateComponent(table, "OPE", this.status.combo_hfjt);
+		this.updateComponent(table, "zgl", this.status.combo_zgl);
+		this.updateComponent(table, "zdz", this.status.combo_zdz);
 
 		this.checkAlarmState(monitor);
 

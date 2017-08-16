@@ -15,7 +15,7 @@ public class SettingCombo extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private MyLayout m_layout;
 
-	public JButton wnd_button;
+	public JButton button;
 
 	private SettingCombo() {
 	}
@@ -41,7 +41,7 @@ public class SettingCombo extends JPanel {
 
 		this.m_layout = layout;
 
-		this.wnd_button = layout.button;
+		this.button = layout.button;
 	}
 
 	private class MyLayout implements LayoutManager {
@@ -58,11 +58,12 @@ public class SettingCombo extends JPanel {
 
 		public void init(SettingCombo parent) {
 			parent.add(label);
+			parent.add(button);
 			parent.add(unit);
 			parent.add(edit);
-			parent.add(button);
 
 			unit.setText("unit");
+			label.setHorizontalAlignment(JLabel.CENTER);
 			unit.setHorizontalAlignment(JLabel.CENTER);
 
 			edit.setText("value");
@@ -97,11 +98,11 @@ public class SettingCombo extends JPanel {
 
 			com0.setBounds(0, top, w, h_2 - top);
 			int off = 0;
-			com1.setBounds(off, h_2, w_a, h_2);
-			off += w_a;
-			com2.setBounds(off, h_2, w_b, h_2);
+			com1.setBounds(off, h_2, w/2, h_2);
+//			off += w_a;
+//			com2.setBounds(off, h_2, w_b, h_2);
 			off += w_b;
-			com3.setBounds(off, h_2, w_c, h_2);
+			com3.setBounds(w/2, h_2, w/2, h_2);
 
 		}
 

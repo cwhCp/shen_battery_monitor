@@ -19,11 +19,11 @@ public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final MonitorHolder m_holder;
 
-	public JButton wnd_button_on_off;
-	public JComboBox<String> wnd_combo_port;
-	public JLabel wnd_label_power;
-	public JLabel wnd_label_com;
-	public JLabel wnd_label_config;
+	public JButton button_on_off;
+	public JComboBox<String> combo_port;
+	public JLabel label_power;
+	public JLabel label_com;
+	public JLabel label_config;
 
 	public ControlPanel(MonitorHolder holder) {
 		this.m_holder = holder;
@@ -35,7 +35,7 @@ public class ControlPanel extends JPanel {
 		return view;
 	}
 
-	private JLabel createCenterLabel(String text, String iconName = null){
+	private JLabel createCenterLabel(String text, String iconName){
 		JLabel label = new JLabel();
 		label.setText(text);
 		label.setHorizontalAlignment(JLabel.CENTER);
@@ -48,36 +48,36 @@ public class ControlPanel extends JPanel {
 	private void onCreate() {
 		this.setLayout(new GridLayout(1, 5));
 
-		this.wnd_label_com = this.createCenterLabel("label-1");
-		this.wnd_combo_port = new JComboBox<String>();
-		this.wnd_label_config = this.createCenterLabel("label-2");
-		this.wnd_button_on_off = new JButton();
-		this.wnd_button_on_off.setText("button");
-		this.wnd_label_power = this.createCenterLabel("","red.png");
+		this.label_com = this.createCenterLabel("label-1", null);
+		this.combo_port = new JComboBox<String>();
+		this.label_config = this.createCenterLabel("label-2", null);
+		this.button_on_off = new JButton();
+		this.button_on_off.setText("button");
+		this.label_power = this.createCenterLabel("", "red.png");
 
-		this.add(this.wnd_label_com);
-		this.add(this.wnd_combo_port);
-		this.add(this.wnd_label_config);
-		this.add(this.wnd_button_on_off);
-		this.add(this.wnd_label_power);
+		this.add(this.label_com);
+		this.add(this.combo_port);
+		this.add(this.label_config);
+		this.add(this.button_on_off);
+		this.add(this.label_power);
 
-		int lr = 50;
-		int tb = 30;
+		int lr = 10;
+		int tb = 10;
 		this.setBorder(BorderFactory.createEmptyBorder(tb, lr, tb, lr));
 	}
 
 	public void setStateIcon(int index) {
-		this.wnd_label_power.setIcon(new ImageIcon(this.getClass().getResource(index == 0? "red.png" :"green.png")));
+		this.label_power.setIcon(new ImageIcon(this.getClass().getResource(index == 0? "red.png" :"green.png")));
 	}
 
 	public void setInfoByRes(StringRes res){
-		wnd_label_com.setText(res.getComPort());
-		wnd_label_config.setText("9600-8-N-1");
-		wnd_label_power.setText("");
-		wnd_button_on_off.setText(res.getOnOff());
+		label_com.setText(res.getComPort());
+		label_config.setText("9600-8-N-1");
+		label_power.setText("");
+		button_on_off.setText(res.getOnOff());
 	}
 
 	public void setComboPort(ComboBoxModel<String> model){
-		wnd_combo_port.setModel(model);
+		combo_port.setModel(model);
 	}
 }

@@ -7,11 +7,7 @@ public class BorderUtils {
 
 	public static Border getBorder(Object user) {
 		// TODO Auto-generated method stub
-
-		String name = user.getClass().getSimpleName();
-
 		Border border = BorderFactory.createEmptyBorder(3, 3, 3, 3);
-
 		return border;
 	}
 
