@@ -9,6 +9,7 @@ import com.puyatech.ab4c.shen_battery_monitor.Monitor;
 import com.puyatech.ab4c.shen_battery_monitor.MonitorHolder;
 import com.puyatech.ab4c.shen_battery_monitor.MonitorState;
 import com.puyatech.ab4c.shen_battery_monitor.protocol.StatusField;
+import com.puyatech.ab4c.shen_battery_monitor.tools.Utils;
 
 public class StatusPanel extends JPanel {
 
@@ -38,28 +39,21 @@ public class StatusPanel extends JPanel {
 		return view;
 	}
 
-	private PropertyCombo createPropertyCombo(){
-		PropertyCombo combo = PropertyCombo.create();
-		combo.setValue("-");
-		this.add(combo);
-		return combo;
-	}
-
 	private void onCreate() {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		this.combo_id = this.createPropertyCombo();
-		this.combo_dqdy = this.createPropertyCombo();
-		this.combo_dqdl = this.createPropertyCombo();
-		this.combo_dcwd = this.createPropertyCombo();
-		this.combo_xpwd = this.createPropertyCombo();
-		this.combo_fztd = this.createPropertyCombo();
-		this.combo_qygd = this.createPropertyCombo();
-		this.combo_hfjt = this.createPropertyCombo();
-		this.combo_zgl = this.createPropertyCombo();
-		this.combo_zdz = this.createPropertyCombo();
-		this.combo_dcdl = this.createPropertyCombo();
-		this.combo_dlbfb = this.createPropertyCombo();
+		this.combo_id = Utils.createPropertyCombo(this);
+		this.combo_dqdy = Utils.createPropertyCombo(this);
+		this.combo_dqdl = Utils.createPropertyCombo(this);
+		this.combo_dcwd = Utils.createPropertyCombo(this);
+		this.combo_xpwd = Utils.createPropertyCombo(this);
+		this.combo_fztd = Utils.createPropertyCombo(this);
+		this.combo_qygd = Utils.createPropertyCombo(this);
+		this.combo_hfjt = Utils.createPropertyCombo(this);
+		this.combo_zgl = Utils.createPropertyCombo(this);
+		this.combo_zdz = Utils.createPropertyCombo(this);
+		this.combo_dcdl = Utils.createPropertyCombo(this);
+		this.combo_dlbfb = Utils.createPropertyCombo(this);
 	}
 
 	public void initStringResources(StringRes res){
@@ -86,7 +80,7 @@ public class StatusPanel extends JPanel {
 
 		Map<String, StatusField> table = state.getFields();
 
-		this.combo_id.setValue(id2string(state.getId()));
+		this.combo_id.setValue(Utils.id2string(state.getId()));
 		this.updateComponent(table, "VOL", this.combo_dqdy);
 		this.updateComponent(table, "CUR", this.combo_dqdl);
 		this.updateComponent(table, "BAT", this.combo_dcwd);
@@ -99,9 +93,6 @@ public class StatusPanel extends JPanel {
 		this.updateComponent(table, "zdz", this.combo_zdz);
 	}
 
-	private String id2string(long id) {
-		return Long.toHexString(id);
-	}
 
 	private void updateComponent(Map<String, StatusField> table, String key, PropertyCombo com, String fmt) {
 		StatusField field = table.get(key);

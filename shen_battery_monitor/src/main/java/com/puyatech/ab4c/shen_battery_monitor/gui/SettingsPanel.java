@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import com.puyatech.ab4c.shen_battery_monitor.Monitor;
 import com.puyatech.ab4c.shen_battery_monitor.MonitorHolder;
 import com.puyatech.ab4c.shen_battery_monitor.model.ActionModel;
-
+import com.puyatech.ab4c.shen_battery_monitor.tools.Utils;
 
 public class SettingsPanel extends JPanel implements ActionListener {
 
@@ -38,18 +38,6 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		return view;
 	}
 
-	private JButton createButton(JPanel panel){
-		JButton button = new JButton("button");
-		panel.add(button);
-		return button;
-	}
-
-	private SettingCombo createSettingCombo(){
-		SettingCombo combo = SettingCombo.create();
-		this.add(combo);
-		// combo.setValue("2");
-		return combo;
-	}
 
 	private void onCreate() {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -61,15 +49,15 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		panel.setLayout(gl);
 		this.add(panel);
 
-		this.button_sdcx = this.createButton(panel);
-		this.button_hfqs = this.createButton(panel);
-		this.button_gdfz = this.createButton(panel);
-		this.button_jtfz = this.createButton(panel);
+		this.button_sdcx = Utils.createButton(panel);
+		this.button_hfqs = Utils.createButton(panel);
+		this.button_gdfz = Utils.createButton(panel);
+		this.button_jtfz = Utils.createButton(panel);
 
-		this.setcom_zdcx = this.createSettingCombo();
-		this.setcom_qygd = this.createSettingCombo();
-		this.setcom_hfjt = this.createSettingCombo();
-		this.setcom_bcdl = this.createSettingCombo();
+		this.setcom_zdcx = Utils.createSettingCombo(this);
+		this.setcom_qygd = Utils.createSettingCombo(this);
+		this.setcom_hfjt = Utils.createSettingCombo(this);
+		this.setcom_bcdl = Utils.createSettingCombo(this);
 
 	}
 

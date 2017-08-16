@@ -21,6 +21,7 @@ import com.puyatech.ab4c.shen_battery_monitor.MonitorHolder;
 import com.puyatech.ab4c.shen_battery_monitor.MonitorState;
 import com.puyatech.ab4c.shen_battery_monitor.com.ComPortAgent;
 import com.puyatech.ab4c.shen_battery_monitor.model.ActionModel;
+import com.puyatech.ab4c.shen_battery_monitor.tools.Utils;
 
 
 public class ControlPanel extends JPanel implements ActionListener{
@@ -53,25 +54,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 		m_status = status;
 	}
 
-	private JLabel createCenterLabel(String text, String iconName){
-		JLabel label = new JLabel();
-		label.setText(text);
-		label.setHorizontalAlignment(JLabel.CENTER);
-		if (null != iconName) {
-			label.setIcon(new ImageIcon(this.getClass().getResource(iconName)));
-		}
-		return label;
-	}
 
 	private void onCreate() {
 		this.setLayout(new GridLayout(1, 5));
 
-		this.label_com = this.createCenterLabel("label-1", null);
+		this.label_com = Utils.createCenterLabel("label-1");
 		this.combo_port = new JComboBox<String>();
-		this.label_config = this.createCenterLabel("label-2", null);
-		this.button_on_off = new JButton();
-		this.button_on_off.setText("button");
-		this.label_power = this.createCenterLabel("", "red.png");
+		this.label_config = Utils.createCenterLabel("label-2");
+		this.button_on_off = new JButton("button");
+		this.label_power = Utils.createCenterLabel("");
+		this.label_power.setIcon(new ImageIcon(this.getClass().getResource("red.png")));
 
 		this.add(this.label_com);
 		this.add(this.combo_port);
