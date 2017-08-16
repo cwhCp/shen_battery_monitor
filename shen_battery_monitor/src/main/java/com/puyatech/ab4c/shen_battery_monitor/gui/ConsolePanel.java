@@ -1,6 +1,7 @@
 package com.puyatech.ab4c.shen_battery_monitor.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -26,10 +27,8 @@ public class ConsolePanel extends JPanel {
 	}
 
 	private void onCreate() {
-
 		this.m_holder.getMonitor();
-
-		// this.setBackground(Color.green);
+//		this.setBackground(Color.green);
 		this.setPreferredSize(new Dimension(100, 100));
 
 		JTextArea text = new JTextArea();
