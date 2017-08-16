@@ -16,10 +16,12 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -77,10 +79,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setJMenuBar(this.createMenuBar());
 		this.setResizable(false);
 
+		this.wnd_control = ControlPanel.create(this.m_holder);
 		this.wnd_settings = SettingsPanel.create(this.m_holder);
 		this.wnd_status = StatusPanel.create(this.m_holder);
 		this.wnd_console = ConsolePanel.create(this.m_holder);
-		this.wnd_control = ControlPanel.create(this.m_holder);
 
 		Container client = this.getContentPane();
 		client.setLayout(new BorderLayout());
@@ -230,13 +232,10 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		final String cmd = event.getActionCommand();
 		if (cmd == null) {
-
 		} else if (cmd.equals(Action.start)) {
 			this.doActionStart();
-
 		} else if (cmd.equals(Action.stop)) {
 			this.doActionStop();
-
 		} else if (cmd.equals(Action.on_off)) {
 			this.doActionOnOff();
 		} else if (cmd.equals(Action.jtfz)) {
@@ -323,7 +322,14 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	private void doActionStart() {
-		String port = this.wnd_control.wnd_combo_port.getSelectedItem().toString();
+		JComboBox<String> jcbox = wnd_control.wnd_combo_port;
+		Object obj = jcbox.getSelectedItem();
+		if (obj == null) {
+			JOptionPane.showMessageDialog(this, "无选择对象", "提示", JOptionPane.ERROR_MESSAGE);
+			System.out.println("selected empty");
+			return;
+		}
+		String port = obj.toString();
 		System.out.println("open " + port);
 		Monitor monitor = this.m_holder.getMonitor();
 		monitor.setComPortName(port);

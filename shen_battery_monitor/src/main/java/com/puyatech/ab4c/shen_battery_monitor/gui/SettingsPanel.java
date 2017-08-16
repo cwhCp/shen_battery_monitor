@@ -37,21 +37,20 @@ public class SettingsPanel extends JPanel {
 	}
 
 	private void onCreate() {
-
 		// this.setBackground(Color.red);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		List<JButton> button_list = new ArrayList<JButton>();
+		List<JButton> buttons = new ArrayList<JButton>();
 		for (int i = 4; i > 0; i--) {
-			button_list.add(new JButton("button"));
+			buttons.add(new JButton("button"));
 		}
-		this.add(this.layout(button_list));
+		this.add(this.layout(buttons));
 
 		int i = 0;
-		this.wnd_button_sdcx = button_list.get(i++);
-		this.wnd_button_hfqs = button_list.get(i++);
-		this.wnd_button_gdfz = button_list.get(i++);
-		this.wnd_button_jtfz = button_list.get(i++);
+		this.wnd_button_sdcx = buttons.get(i++);
+		this.wnd_button_hfqs = buttons.get(i++);
+		this.wnd_button_gdfz = buttons.get(i++);
+		this.wnd_button_jtfz = buttons.get(i++);
 
 		List<SettingCombo> list = new ArrayList<SettingCombo>();
 		for (i = 4; i > 0; i--) {
@@ -69,13 +68,13 @@ public class SettingsPanel extends JPanel {
 
 	}
 
-	private Component layout(List<JButton> button_list) {
+	private Component layout(List<JButton> buttons) {
 		JPanel panel = new JPanel();
 		GridLayout gl = new GridLayout(2, 2);
 		gl.setVgap(10);
 		gl.setHgap(10);
 		panel.setLayout(gl);
-		for (JButton btn : button_list) {
+		for (JButton btn : buttons) {
 			panel.add(btn);
 		}
 		return panel;
